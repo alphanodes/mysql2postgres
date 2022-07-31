@@ -1,53 +1,19 @@
+# frozen_string_literal: true
+
 require 'rubygems'
 require 'rake'
 
-require_relative 'lib/mysql2psql/version'
-
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name = 'mysql2psql'
-    gem.version = Mysql2psql::Version::STRING
-    gem.summary = %(Tool for converting mysql database to postgresql)
-    gem.description = %{It can create postgresql dump from mysql database or directly load data from mysql to
-    postgresql (at about 100 000 records per minute). Translates most data types and indexes.}
-    gem.email = 'gallagher.paul@gmail.com'
-    gem.homepage = 'http://github.com/tardate/mysql2postgresql'
-    gem.authors = [
-      'Max Lapshin <max@maxidoors.ru>',
-      'Anton Ageev <anton@ageev.name>',
-      'Samuel Tribehou <cracoucax@gmail.com>',
-      'Marco Nenciarini <marco.nenciarini@devise.it>',
-      'James Nobis <jnobis@jnobis.controldocs.com>',
-      'quel <github@quelrod.net>',
-      'Holger Amann <keeney@fehu.org>',
-      'Maxim Dobriakov <closer.main@gmail.com>',
-      'Michael Kimsal <mgkimsal@gmail.com>',
-      'Jacob Coby <jcoby@portallabs.com>',
-      'Neszt Tibor <neszt@tvnetwork.hu>',
-      'Miroslav Kratochvil <exa.exa@gmail.com>',
-      'Paul Gallagher <gallagher.paul@gmail.com>',
-      'Juga Paazmaya <paazmaya@yahoo.com>'
-    ]
-    gem.add_dependency 'mysql-pr', '~> 2.9'
-    gem.add_dependency 'postgres-pr', '~> 0.6'
-    gem.add_development_dependency 'test-unit', '~> 2.1'
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
-  end
-  Jeweler::GemcutterTasks.new
-rescue LoadError
-  puts 'Jeweler (or a dependency) not available. Install it with: gem install jeweler'
-end
+require_relative 'lib/mysql2postgres/version'
 
 require 'rake/testtask'
 namespace :test do
-  Rake::TestTask.new(:units) do |test|
+  Rake::TestTask.new :units do |test|
     test.libs << 'lib' << 'test/lib'
     test.pattern = 'test/units/*test.rb'
     test.verbose = true
   end
 
-  Rake::TestTask.new(:integration) do |test|
+  Rake::TestTask.new :integration do |test|
     test.libs << 'lib' << 'test/lib'
     test.pattern = 'test/integration/*test.rb'
     test.verbose = true
@@ -57,7 +23,7 @@ end
 desc 'Run all tests'
 task :test do
   Rake::Task['test:units'].invoke
-  #Rake::Task['test:integration'].invoke
+  Rake::Task['test:integration'].invoke
 end
 
 begin
@@ -77,10 +43,8 @@ task default: :test
 
 require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
-  version = Mysql2psql::Version::STRING
-
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "mysql2psql #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
+  rdoc.title = "Mysql2postgres #{Mysql2postgres::VERSION}"
+  rdoc.rdoc_files.include 'README*'
+  rdoc.rdoc_files.include 'lib/**/*.rb'
 end

@@ -1,23 +1,26 @@
-require 'test_helper'
+# frozen_string_literal: true
 
-require 'mysqltopostgres'
+require File.expand_path '../test_helper', __dir__
 
 class PostgresFileWriterTest < Test::Unit::TestCase
   attr_accessor :destfile
+
   def setup
-    @destfile = get_temp_file('mysql2psql_test_destfile')
-  rescue => e
-    raise StandardError.new('Failed to initialize integration test db. See README for setup requirements.')
+    @destfile = get_temp_file 'mysql2postgres_test_destfile'
+  rescue StandardError
+    raise 'Failed to initialize integration test db. See README for setup requirements.'
   end
 
   def teardown
-    File.delete(destfile) if File.exist?(destfile)
+    File.delete destfile
   end
 
-  def test_basic_write
-    writer = Mysql2psql::PostgresFileWriter.new(destfile)
+  def test_file_writer
+    destination = { filename: '/tmp/test.sql' }
+    writer = Mysql2postgres::PostgresFileWriter.new @destfile, destination
     writer.close
-    content = IO.read(destfile)
+    content = File.read destfile
+
     assert_not_nil content.match("SET client_encoding = 'UTF8'")
     assert_nil content.match('unobtanium')
   end

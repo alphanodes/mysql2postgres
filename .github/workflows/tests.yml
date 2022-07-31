@@ -1,0 +1,86 @@
+name: Tests
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    name: ruby-${{ matrix.ruby }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ruby: ['2.7', '3.0', '3.1']
+      fail-fast: false
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: somename
+        ports:
+          - 5432:5432
+
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: 'BestPasswordEver'
+          MYSQL_DATABASE: somename
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - name: Verify MySQL connection from host
+        run: |
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }} -uroot -pBestPasswordEver -e "SHOW DATABASES"
+
+      - name: Checkout git
+        uses: actions/checkout@v2
+
+      - name: Update package archives
+        run: sudo apt-get update --yes --quiet
+
+      - name: Install package dependencies
+        run: >
+          sudo apt-get install --yes --quiet
+          build-essential
+          cmake
+          libicu-dev
+          libpq-dev
+          libmysqlclient-dev
+
+      - name: Setup Gemfile
+        run: |
+          touch .enable_test
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      - name: Install Ruby dependencies
+        run: |
+          bundle install --jobs=4 --retry=3
+
+      - name: Run tests
+        env:
+          MYSQL2POSTGRES_ENV: test
+          MYSQL_PORT: ${{ job.services.mysql.ports[3306] }}
+        run: bundle exec rake test
+
+      - name: Run build gem file
+        run: gem build mysql2postgres.gemspec

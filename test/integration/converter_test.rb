@@ -1,30 +1,27 @@
-require 'test_helper'
+# frozen_string_literal: true
 
-require 'mysql2psql/converter'
+require File.expand_path '../test_helper', __dir__
 
 class ConverterTest < Test::Unit::TestCase
   class << self
     def startup
-      seed_test_database
-      @@options = get_test_config_by_label(:localmysql_to_file_convert_nothing)
+      seed_test_database option_file: 'config_to_file'
     end
-
   end
+
   def setup
-  end
+    @options = options_from_file 'config_to_file'
+    @options[:suppress_data] = true
+    @options[:suppress_ddl] = true
 
-  def teardown
-  end
-
-  def options
-    @@options
+    @destfile = get_temp_file 'mysql2postgres_test'
   end
 
   def test_new_converter
     assert_nothing_raised do
-      reader = get_test_reader(options)
-      writer = get_test_file_writer(options)
-      converter = Mysql2psql::Converter.new(reader, writer, options)
+      reader = get_test_reader @options
+      writer = Mysql2postgres::PostgresFileWriter.new @destfile, @options[:destination]
+      converter = Mysql2postgres::Converter.new reader, writer, @options
       assert_equal 0, converter.convert
     end
   end

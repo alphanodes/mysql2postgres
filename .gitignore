@@ -1,3 +1,4 @@
+.DS_Store
 *.gem
 *.sql
 .bundle
@@ -6,3 +7,5 @@ config/database.yml
 Gemfile.lock
 pkg
 test/fixtures/test*.sql
+.enable_dev
+.enable_test

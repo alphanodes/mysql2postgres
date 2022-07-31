@@ -1,0 +1,16 @@
+mysql:
+  hostname: localhost
+  username: root
+  password: BestPasswordEver
+  database: somename
+
+# if MYSQL2POSTGRES_ENV and RAILS_ENV is missing, development is used!
+destinations:
+  test:
+    hostname: localhost
+    port: 5432
+    username: somename
+    password: secretpassword
+    database: somename
+
+# all options are false as default

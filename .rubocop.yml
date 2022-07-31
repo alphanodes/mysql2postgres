@@ -1,0 +1,63 @@
+require:
+  - rubocop-performance
+
+AllCops:
+  TargetRubyVersion: 2.7
+  NewCops: enable
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 140
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Max: 35
+
+Performance/ChainArrayAllocation:
+  Enabled: true
+
+Style/AutoResourceCleanup:
+  Enabled: true
+
+Style/Documentation:
+  Enabled: false
+
+Style/ExpandPathArguments:
+  Enabled: false
+
+Style/HashTransformKeys:
+  Enabled: false
+
+Style/HashTransformValues:
+  Enabled: false
+
+Metrics/ParameterLists:
+  Enabled: true
+  CountKeywordArgs: false
+
+Style/MethodCallWithArgsParentheses:
+  Enabled: true
+  AllowParenthesesInMultilineCall: true
+  AllowParenthesesInChaining: true
+  EnforcedStyle: omit_parentheses
+
+Naming/FileName:
+  Enabled: true
+  Exclude:
+    - Rakefile

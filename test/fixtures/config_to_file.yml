@@ -8,15 +8,9 @@ mysql:
 
 # if MYSQL2POSTGRES_ENV and RAILS_ENV is missing, development is used!
 destinations:
-  development:
+  test:
     adapter: file
     filename: /tmp/exported_file.sql
-  test:
-    hostname: localhost
-    port: 5432
-    username: postgres
-    password: postgres
-    database: somename
 
 # if tables is given, only the listed tables will be converted.  leave empty to convert all tables.
 tables:
@@ -24,11 +18,6 @@ tables:
 - table2
 - table3
 - table4
-
-# if exclude_tables is given, exclude the listed tables from the conversion.
-exclude_tables:
-- table5
-- table6
 
 dump_file_directory: /tmp
 
