@@ -51,7 +51,7 @@ class Mysql2postgres
              when 'double precision'
                default = " DEFAULT #{column[:default].nil? ? 'NULL' : column[:default]}" if default
                'double precision'
-             when 'datetime'
+             when 'datetime', 'datetime(6)'
                default = nil
                'timestamp without time zone'
              when 'date'
@@ -102,14 +102,14 @@ class Mysql2postgres
         if column_type(column) == 'boolean'
           row[index] = if row[index] == 1
                          't'
-                       elsif row[index].zero?
+                       elsif row[index]&.zero?
                          'f'
                        else
                          row[index]
                        end
         end
 
-        row[index] = string_data row, index, column if row[index].is_a? String
+        row[index] = string_data table, row, index, column if row[index].is_a? String
 
         row[index] = '\N' unless row[index]
       end
@@ -137,7 +137,7 @@ class Mysql2postgres
       value.join ':'
     end
 
-    def string_data(row, index, column)
+    def string_data(table, row, index, column)
       if column_type(column) == 'bytea'
         if column[:name] == 'data'
           with_gzip = false
@@ -153,16 +153,16 @@ class Mysql2postgres
           escape_bytea row[index]
         end
       else
-        escape_data(row[index]).gsub(/\n/, '\n').gsub(/\t/, '\t').gsub(/\r/, '\r').gsub(/\0/, '')
+        escape_data(row[index]).gsub("\n", '\n').gsub("\t", '\t').gsub("\r", '\r').gsub(/\0/, '')
       end
     end
 
     def escape_bytea(data)
-      escape_data(PG::Connection.escape_bytea(data)).gsub(/''/, "'")
+      escape_data(PG::Connection.escape_bytea(data)).gsub("''", "'")
     end
 
     def escape_data(value)
-      value.gsub(/\\/, '\\\\\\')
+      value.gsub '\\', '\\\\\\'
     end
   end
 end

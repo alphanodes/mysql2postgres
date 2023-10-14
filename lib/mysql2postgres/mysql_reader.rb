@@ -125,7 +125,7 @@ class Mysql2postgres
               @indexes << index
             elsif (match_data = /PRIMARY KEY .*\((.*)\)/.match(line))
               index[:primary] = true
-              index[:columns] = match_data[1].split(',').map { |col| col.strip.delete('`') }
+              index[:columns] = match_data[1].split(',').map { |col| col.strip.delete '`' }
               @indexes << index
             end
           end
@@ -216,7 +216,7 @@ class Mysql2postgres
     end
 
     def tables
-      @tables ||= @mysql.query('SHOW TABLES').map { |row| Table.new(self, row.first) }
+      @tables ||= @mysql.query('SHOW TABLES').map { |row| Table.new self, row.first }
     end
 
     def paginated_read(table, page_size)

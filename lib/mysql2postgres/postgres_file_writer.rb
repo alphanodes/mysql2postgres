@@ -151,7 +151,7 @@ class Mysql2postgres
     private
 
     def quoted_list(list)
-      list.map { |c| PG::Connection.quote_ident(c) }.join(', ')
+      list.map { |c| PG::Connection.quote_ident c }.join(', ')
     end
   end
 end

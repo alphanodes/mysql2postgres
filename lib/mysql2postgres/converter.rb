@@ -27,7 +27,7 @@ class Mysql2postgres
 
     def convert
       tables = reader.tables
-      tables.reject! { |table| exclude_tables.include?(table.name) }
+      tables.reject! { |table| exclude_tables.include? table.name }
       tables.select! { |table| only_tables ? only_tables.include?(table.name) : true }
 
       # preserve order only works, if only_tables are specified
