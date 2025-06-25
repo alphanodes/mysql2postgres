@@ -5,7 +5,7 @@ require 'yaml'
 require 'pg'
 require 'pg_ext'
 require 'pg/exceptions'
-require 'pg/constants'
+# require 'pg/constants'
 require 'pg/connection'
 require 'pg/result'
 

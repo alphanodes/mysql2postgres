@@ -1,8 +1,8 @@
-require:
+plugins:
   - rubocop-performance
 
 AllCops:
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.1
   NewCops: enable
 
 Metrics/AbcSize:
@@ -32,19 +32,10 @@ Metrics/PerceivedComplexity:
 Performance/ChainArrayAllocation:
   Enabled: true
 
-Style/AutoResourceCleanup:
-  Enabled: true
-
 Style/Documentation:
   Enabled: false
 
 Style/ExpandPathArguments:
-  Enabled: false
-
-Style/HashTransformKeys:
-  Enabled: false
-
-Style/HashTransformValues:
   Enabled: false
 
 Metrics/ParameterLists:
@@ -61,3 +52,7 @@ Naming/FileName:
   Enabled: true
   Exclude:
     - Rakefile
+
+Style/SafeNavigationChainLength:
+  Enabled: true
+  Max: 3

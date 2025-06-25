@@ -11,7 +11,7 @@ config_file = ARGV.empty? ? File.join(File.dirname(__dir__), 'config', 'database
 
 raise "'#{config_file}' does not exist" unless FileTest.exist? config_file
 
-db_yaml = YAML.safe_load File.read(config_file)
+db_yaml = YAML.safe_load_file config_file
 
 raise "'#{config_file}' does not contain a mysql configuration directive for conversion" unless db_yaml.key? 'mysql'
 raise "'#{config_file}' does not contain destinations configuration directive for conversion" unless db_yaml.key? 'destinations'

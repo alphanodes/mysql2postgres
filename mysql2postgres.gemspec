@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
   s.email = 'a.meindl@alphanodes.com'
   s.metadata = { 'rubygems_mfa_required' => 'true' }
   s.executables = ['mysql2postgres']
-  s.required_ruby_version = '>= 2.7'
+  s.required_ruby_version = '>= 3.1'
 
   s.files = [
     '.gitignore',
@@ -70,7 +70,7 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
   s.summary = 'MySQL to PostgreSQL Data Translation'
 
-  s.add_runtime_dependency 'pg', '~> 1.2.2'
-  s.add_runtime_dependency 'rake'
-  s.add_runtime_dependency 'ruby-mysql', '~> 3.0'
+  s.add_dependency 'pg', '~> 1.5.3'
+  s.add_dependency 'rake'
+  s.add_dependency 'ruby-mysql', '~> 4.2'
 end

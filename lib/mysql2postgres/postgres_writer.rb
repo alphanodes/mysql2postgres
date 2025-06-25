@@ -63,7 +63,7 @@ class Mysql2postgres
                  default = ' DEFAULT CURRENT_TIMESTAMP'
                when datetime_zero
                  default = " DEFAULT '#{datetime_zero_fix}'"
-               when datetime_zero(with_seconds: true) # rubocop: disable Style/MethodCallWithArgsParentheses
+               when datetime_zero(with_seconds: true)
                  default = " DEFAULT '#{datetime_zero_fix with_seconds: true}'"
                end
                'timestamp without time zone'

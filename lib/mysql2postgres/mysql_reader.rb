@@ -202,8 +202,8 @@ class Mysql2postgres
       connect
     end
 
-    def query(*args, &block)
-      mysql.query(*args, &block)
+    def query(*args, &)
+      mysql.query(*args, &)
     rescue Mysql::Error => e
       if e.message.match?(/gone away/i)
         reconnect

@@ -13,6 +13,6 @@ if File.file? File.expand_path './.enable_test', __dir__
   group :development, :test do
     gem 'rubocop', require: false
     gem 'rubocop-performance', require: false
-    gem 'test-unit', '~> 3.5.3'
+    gem 'test-unit', '~> 3.6.8'
   end
 end
