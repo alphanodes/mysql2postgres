@@ -72,5 +72,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'pg', '~> 1.5.3'
   s.add_dependency 'rake'
-  s.add_dependency 'ruby-mysql', '~> 4.2'
+  s.add_dependency 'ruby-mysql', '~> 3.0.1'
 end
